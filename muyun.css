@@ -1,4 +1,4 @@
-/* MuYun 慕云 · Typora Edition v0.3.1 — 晨光暖纸（浅色）
+/* MuYun 慕云 · Typora Edition v0.3.2 — 晨光暖纸（浅色）
    obsidian-muyun 的姊妹主题：三支柱 —— ① 阅读舒适 ② 写作高效 ③ 快速定位。
    令牌取自《MuYun 设计文档》定稿值；组件规则两态共用（深色见 muyun-dark.css，仅覆盖令牌）。
    约定：优先 CSS 变量；动效 ≤200ms、只动 color/opacity/transform；reduced-motion 全关。
@@ -21,6 +21,7 @@
 	--muyun-h1: #8A6A30;                 /* H1 沙金 */
 	--muyun-h2: #525288;                 /* H2 慕云紫（双态同值） */
 	--muyun-h3: #4A6CAB;                 /* H3 链接蓝 */
+	--muyun-outline-h2: #525288;         /* 大纲 H2 色条（同 h2；深色经此令牌提亮，见 muyun-dark） */
 
 	/* ── 派生面（边框/悬停/代码/高亮/标签） ── */
 	--muyun-border: rgba(0, 0, 0, 0.10);
@@ -553,20 +554,22 @@ tbody tr:hover td {
 	background: var(--item-hover-bg-color);
 }
 
-/* 大纲层级圆点（B7 同构）：金/紫/蓝 = 标题色系；H4 以下取灰，对应「H4–H6 保持正文色」支柱 */
-.outline-item::before {
+/* 大纲层级色条（B7 同构）：金/紫/蓝 = 标题色系；H4 以下取灰，对应「H4–H6 保持正文色」支柱。
+   v0.3.2：圆点改 14×4 色条（呼应 H2 路标条）；挂点从 .outline-item 移到 .outline-label——
+   Typora 大纲为 table-cell 布局，挂 .outline-item 的 inline-block 会与标题错位 */
+.outline-label::before {
 	content: "";
 	display: inline-block;
-	flex: none;
-	width: 7px;
-	height: 7px;
-	border-radius: 50%;
+	vertical-align: middle;
+	width: 14px;
+	height: 4px;
+	border-radius: 2px;
 	background: var(--muyun-text-faint);
-	margin-right: 6px;
+	margin-right: 8px;
 }
-.outline-item-wrapper.outline-h1 > .outline-item::before { background: var(--muyun-h1); }
-.outline-item-wrapper.outline-h2 > .outline-item::before { background: var(--muyun-h2); }
-.outline-item-wrapper.outline-h3 > .outline-item::before { background: var(--muyun-h3); }
+.outline-item-wrapper.outline-h1 > .outline-item .outline-label::before { background: var(--muyun-h1); }
+.outline-item-wrapper.outline-h2 > .outline-item .outline-label::before { background: var(--muyun-outline-h2); }
+.outline-item-wrapper.outline-h3 > .outline-item .outline-label::before { background: var(--muyun-h3); }
 
 footer.ty-footer {
 	color: var(--muyun-text-muted);
