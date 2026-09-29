@@ -1,4 +1,4 @@
-/* MuYun 慕云 · Typora Edition v0.3.0 — 晨光暖纸（浅色）
+/* MuYun 慕云 · Typora Edition v0.3.1 — 晨光暖纸（浅色）
    obsidian-muyun 的姊妹主题：三支柱 —— ① 阅读舒适 ② 写作高效 ③ 快速定位。
    令牌取自《MuYun 设计文档》定稿值；组件规则两态共用（深色见 muyun-dark.css，仅覆盖令牌）。
    约定：优先 CSS 变量；动效 ≤200ms、只动 color/opacity/transform；reduced-motion 全关。
@@ -113,7 +113,7 @@ body {
 #write code,
 #write tt,
 #write pre {
-	text-autospace: none; /* 代码区保持等宽对齐 */
+	text-autospace: no-autospace; /* 代码区保持等宽对齐（规范关键字是 no-autospace，none 为无效值） */
 }
 
 @media (max-width: 750px) {
