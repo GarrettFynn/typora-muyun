@@ -1,7 +1,7 @@
 ---
 title: MuYun 慕云 · Typora 主题完全演示
 author: GarrettFynn
-version: 0.3.2
+version: 0.3.3
 description: 设计思路、设计步骤与 Markdown 全格式演练
 ---
 

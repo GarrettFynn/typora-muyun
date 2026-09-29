@@ -40,8 +40,14 @@
 | 定义 `--muyun-cm-def` | `#4A3A7E` | `#B1AAD8` |
 | 注释 `--muyun-cm-comment` | `#6B6F80` | `#8A8FA3` |
 | 标签 `--muyun-cm-tag` | `#A0644C` | `#C79578` |
-| 属性 `--muyun-cm-attr` | `#8A6A30` | `#DDC79C` |
-| 链接 `--muyun-cm-link` | `#4A6CAB` | `#93A5DE` |
+| 属性/类型标注 `--muyun-cm-attr` | `#8A6A30` | `#DDC79C` |
+| 链接/对象键名 `--muyun-cm-link` | `#4A6CAB` | `#93A5DE` |
+| 错误 `--muyun-cm-error` | `#7E3232` | `#E08E8C` |
+| 基础码色/普通变量 | `#3B3B44`（`--text-color`） | `#C6C9D4`（`--text-color`） |
+| 运算符/括号/结构符 | `#6B6F80`（muted） | `#8A8FA3`（muted） |
+| 源码模式引用 | 同字符串 | 同字符串 |
+
+v0.3.3 起全部 CodeMirror 令牌类逐一接管（内置 codemirror.css 硬编码不再泄漏）；未识别令牌回落正文色，结构符退后取灰。
 
 ## GFM 提示块（Callout 同源）
 
