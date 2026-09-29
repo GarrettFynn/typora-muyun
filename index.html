@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MuYun 慕云 · Typora 主题在线预览</title>
+<style>
+	:root { color-scheme: light dark; }
+	body {
+		margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+		font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+		background: #F7F4ED; color: #3B3B44;
+	}
+	@media (prefers-color-scheme: dark) {
+		body { background: #16161D; color: #C6C9D4; }
+		.card { border-color: rgba(255,255,255,.12); }
+		.btn { border-color: rgba(255,255,255,.22); }
+	}
+	.card { max-width: 34rem; margin: 2rem 1rem; padding: 2.2rem 2.4rem; text-align: center;
+		border: 1px solid rgba(0,0,0,.12); border-radius: 12px; }
+	h1 { font-size: 1.6rem; margin: 0 0 .3rem; }
+	h1 .en { font-weight: 400; opacity: .55; font-size: .75em; }
+	.sub { font-size: .92rem; opacity: .75; line-height: 1.7; margin: .8rem 0 1.6rem; }
+	.btns { display: flex; gap: .8rem; justify-content: center; flex-wrap: wrap; }
+	.btn { display: inline-block; padding: .55rem 1.3rem; border-radius: 8px; text-decoration: none;
+		border: 1px solid rgba(0,0,0,.22); font-weight: 600; }
+	.btn-light { background: #F7F4ED; color: #8A6A30; }
+	.btn-dark { background: #16161D; color: #DDC79C; }
+	.meta { font-size: .82rem; opacity: .6; margin-top: 1.6rem; line-height: 1.8; }
+	.meta a { color: inherit; }
+</style>
+</head>
+<body>
+<main class="card">
+	<h1>MuYun 慕云 <span class="en">· Typora Edition</span></h1>
+	<p class="sub">同一设计的 Typora 版主题——纸感底色、三级标题锚点色、克制动效。<br>
+	A Typora theme ported from the MuYun design — paper surfaces, three-tier heading anchors, restrained motion.</p>
+	<div class="btns">
+		<a class="btn btn-light" href="preview-light.html">☀ 浅色 · 晨光暖纸</a>
+		<a class="btn btn-dark" href="preview-dark.html">🌙 深色 · 墨蓝夜空</a>
+	</div>
+	<p class="meta">
+		安装与可选项 → <a href="https://github.com/GarrettFynn/typora-muyun">GitHub · typora-muyun</a><br>
+		Obsidian 姊妹版 → <a href="https://github.com/GarrettFynn/obsidian-muyun">obsidian-muyun</a><br>
+		预览页为结构模拟；实际效果以 Typora 实机为准。
+	</p>
+</main>
+</body>
+</html>

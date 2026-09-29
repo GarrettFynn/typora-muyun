@@ -1,0 +1,941 @@
+/* MuYun 慕云 · Typora Edition v0.3.1 — 晨光暖纸（浅色）
+   obsidian-muyun 的姊妹主题：三支柱 —— ① 阅读舒适 ② 写作高效 ③ 快速定位。
+   令牌取自《MuYun 设计文档》定稿值；组件规则两态共用（深色见 muyun-dark.css，仅覆盖令牌）。
+   约定：优先 CSS 变量；动效 ≤200ms、只动 color/opacity/transform；reduced-motion 全关。
+   行宽三档（对应 Obsidian 版 Style Settings）：40rem 默认 / 46rem 放宽 / 52rem 宽幅 —— 改 --muyun-measure 即可。 */
+
+:root {
+	/* ── 纸面（晨光暖纸） ── */
+	--bg-color: #F7F4ED;                 /* Typora 内建：窗口与导出底色 */
+	--side-bar-bg-color: #EFEBE3;
+	--muyun-bg-secondary: #EFEBE3;
+	--text-color: #3B3B44;
+	--muyun-text-muted: #6B6F80;
+	--muyun-text-faint: #A0A3B0;
+
+	/* ── 锚点色系（降饱和、保色相） ── */
+	--muyun-accent: #6760A6;             /* 慕云灰紫 · 文字强调/悬停 */
+	--primary-color: #4A3A7E;            /* 墨紫 · 交互强调（浅色专属定稿） */
+	--muyun-link: #4A6CAB;               /* 链接蓝 */
+	--muyun-bold: #8A6A30;               /* 沙金 · 加粗 */
+	--muyun-h1: #8A6A30;                 /* H1 沙金 */
+	--muyun-h2: #525288;                 /* H2 慕云紫（双态同值） */
+	--muyun-h3: #4A6CAB;                 /* H3 链接蓝 */
+
+	/* ── 派生面（边框/悬停/代码/高亮/标签） ── */
+	--muyun-border: rgba(0, 0, 0, 0.10);
+	--muyun-border-strong: rgba(0, 0, 0, 0.22);
+	--muyun-hover: rgba(0, 0, 0, 0.05);
+	--muyun-code-bg: #EFEBE3;
+	--muyun-highlight-bg: rgba(138, 106, 48, 0.14);
+	--muyun-tag-bg: rgba(103, 96, 166, 0.08);
+	--muyun-scrollbar-thumb: rgba(0, 0, 0, 0.16);
+
+	/* ── Typora 内建（侧栏/选区/活动文件） ── */
+	--control-text-color: #6B6F80;
+	--control-text-hover-color: #3B3B44;
+	--item-hover-bg-color: rgba(0, 0, 0, 0.05);
+	--item-hover-text-color: #3B3B44;
+	--active-file-bg-color: rgba(0, 0, 0, 0.05);
+	--active-file-border-color: #6760A6;
+	--active-file-text-color: #3B3B44;
+	--select-text-bg-color: rgba(88, 78, 150, 0.12);
+	--search-select-bg-color: rgba(88, 78, 150, 0.18);
+	--window-border: 1px solid rgba(0, 0, 0, 0.22);
+	--rawblock-edit-panel-bd: #EFEBE3;
+	--monospace: "Lucida Console", Consolas, "Cascadia Mono", Menlo, "Courier New", monospace;
+
+	/* ── 代码语法高亮（取自 MuYun 调色板：慕云紫/苔绿/陶土/墨紫/沙金） ── */
+	--muyun-cm-keyword: #525288;
+	--muyun-cm-string: #3F8566;
+	--muyun-cm-number: #A0644C;
+	--muyun-cm-def: #4A3A7E;
+	--muyun-cm-comment: #6B6F80;
+	--muyun-cm-tag: #A0644C;
+	--muyun-cm-attr: #8A6A30;
+	--muyun-cm-link: #4A6CAB;
+
+	/* ── GFM 提示块（与 Obsidian Callout 同一调色板） ── */
+	--muyun-alert-note: #7375AE;      --muyun-alert-note-bg: rgba(115, 117, 174, 0.08);
+	--muyun-alert-tip: #3F8566;       --muyun-alert-tip-bg: rgba(63, 133, 102, 0.08);
+	--muyun-alert-important: #525288; --muyun-alert-important-bg: rgba(82, 82, 136, 0.08);
+	--muyun-alert-warning: #A0644C;   --muyun-alert-warning-bg: rgba(160, 100, 76, 0.08);
+	--muyun-alert-caution: #7E3232;   --muyun-alert-caution-bg: rgba(126, 50, 50, 0.08);
+
+	/* ── 版式与动效令牌 ── */
+	--muyun-measure: 40rem;              /* 行宽（验收档；46/52rem 见文件头注释） */
+	--muyun-p-spacing: 0.9rem;
+	--muyun-d1: 120ms;
+	--muyun-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ============ 正文对比度三档（与 Obsidian 版同值；默认标准档 ≈10:1，两块都注释即标准） ============
+   启用方法：去掉目标块的注释标记。深色主题的对应档在 muyun-dark.css 末尾同名区块，配套启用。 */
+
+/* 柔和 Soft（约 8.5:1，更护眼）
+:root {
+	--text-color: #55555F;
+}
+*/
+
+/* 扎实 Firm（约 12.5:1，更清晰）
+:root {
+	--text-color: #2C2C33;
+}
+*/
+
+/* ============ 基础版式 ============ */
+
+html {
+	font-size: 16px;
+	-webkit-font-smoothing: antialiased;
+}
+
+html,
+body {
+	background: var(--bg-color);
+	color: var(--text-color);
+}
+
+body {
+	font-family: "Segoe UI", "Microsoft Sans Serif", -apple-system, "PingFang SC",
+		"Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Helvetica Neue", Arial, sans-serif;
+	line-height: 1.7;
+}
+
+#write {
+	max-width: var(--muyun-measure);
+	margin: 0 auto;
+	padding: 30px 30px 100px;
+	text-autospace: normal; /* 中西文自动加隙（Chromium 120+ 实测生效；旧版静默降级） */
+}
+
+#write code,
+#write tt,
+#write pre {
+	text-autospace: no-autospace; /* 代码区保持等宽对齐（规范关键字是 no-autospace，none 为无效值） */
+}
+
+@media (max-width: 750px) {
+	#write {
+		padding: 20px 20px 80px;
+	}
+}
+
+#write > h1:first-child,
+#write > h2:first-child,
+#write > h3:first-child {
+	margin-top: 0;
+}
+
+/* ============ 标题系统（H1 沙金 / H2 慕云紫路标条 / H3 链接蓝；H4–H6 保持正文色） ============ */
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 600;
+	line-height: 1.4;
+	margin: 1.4em 0 0.6em;
+	color: var(--text-color);
+	cursor: text;
+}
+
+h1 tt, h1 code,
+h2 tt, h2 code,
+h3 tt, h3 code,
+h4 tt, h4 code,
+h5 tt, h5 code,
+h6 tt, h6 code {
+	font-size: inherit;
+}
+
+h1 {
+	font-size: 1.9em;
+	margin-top: 1.7em;
+	color: var(--muyun-h1);
+	padding-bottom: 0.25em;
+	border-bottom: 1px solid var(--muyun-border);
+}
+
+h2 {
+	font-size: 1.5em;
+	color: var(--muyun-h2);
+	border-left: 3px solid var(--muyun-h2);   /* H2 路标条：极速滚动时色块先于文字被捕捉 */
+	padding-left: 10px;
+}
+
+h3 {
+	font-size: 1.25em;
+	color: var(--muyun-h3);
+}
+
+h4 { font-size: 1.12em; }
+h5 { font-size: 1em; }
+h6 { font-size: 0.95em; }
+
+/* ============ 正文与行内元素 ============ */
+
+p {
+	margin: 0 0 var(--muyun-p-spacing);
+	word-wrap: break-word;
+}
+
+ul, ol, dl, table {
+	margin: var(--muyun-p-spacing) 0;
+}
+
+li > ol,
+li > ul {
+	margin: 0;
+}
+
+ul, ol {
+	padding-left: 1.5em;
+}
+
+a {
+	color: var(--muyun-link);
+	text-decoration: none;
+	outline: 0;
+	transition: color var(--muyun-d1) var(--muyun-ease);
+}
+
+a:hover {
+	color: var(--muyun-accent);
+}
+
+strong, b {
+	color: var(--muyun-bold);
+	font-weight: 600;
+}
+
+del {
+	color: var(--muyun-text-muted);
+}
+
+mark {
+	background: var(--muyun-highlight-bg);
+	color: var(--text-color);
+	border-radius: 2px;
+	padding: 0.05em 0.15em;
+}
+
+::selection,
+*.in-text-selection {
+	background: var(--select-text-bg-color);
+	color: var(--text-color);
+	text-shadow: none;
+}
+
+blockquote {
+	border-left: 2px solid var(--muyun-border-strong);
+	padding: 0.05em 0 0.05em 1.05em;
+	color: var(--muyun-text-muted);
+	margin: var(--muyun-p-spacing) 0;
+}
+
+hr {
+	border: 0;
+	border-top: 1px solid var(--muyun-border-strong);
+	height: 0;
+	margin: 2em auto;
+	box-sizing: content-box;
+	overflow: hidden;
+}
+
+img {
+	max-width: 100%;
+}
+
+.md-image > .md-meta {
+	color: var(--muyun-text-muted);
+	font-size: 0.9em;
+}
+
+.md-tag {                                   /* #标签：与正文标签同款（灰紫淡底） */
+	color: var(--muyun-accent);
+	background: var(--muyun-tag-bg);
+	border-radius: 999px;
+	padding: 0.1em 0.5em;
+}
+
+sup.md-footnote {
+	background: var(--muyun-hover);
+	color: var(--muyun-link);
+	border-radius: 2px;
+	padding: 0 2px;
+}
+
+.footnotes {
+	color: var(--muyun-text-muted);
+	font-size: 0.9em;
+}
+
+kbd,
+body #write kbd {
+	font-family: var(--monospace);
+	font-size: 0.85em;
+	padding: 2px 5px;
+	color: var(--text-color);
+	background: var(--muyun-bg-secondary);
+	border: 1px solid var(--muyun-border-strong);
+	border-bottom-width: 2px;
+	border-radius: 4px;
+}
+
+/* ============ 代码（行内 / 围栏 / 源码模式） ============ */
+
+code, tt, kbd, var, pre, .md-fences, .CodeMirror {
+	font-family: var(--monospace);
+}
+
+code, tt, var {
+	background: var(--muyun-code-bg);
+	border-radius: 4px;                      /* --code-radius */
+	padding: 2px 5px;
+	font-size: 0.9em;
+}
+
+.md-fences {
+	background: var(--muyun-code-bg);
+	border: 1px solid var(--muyun-border);
+	border-radius: 4px;
+	padding: 0.6em 0.8em;
+	margin: var(--muyun-p-spacing) 0;
+	font-size: 0.9em;
+}
+
+.CodeMirror-gutters {
+	background: var(--muyun-code-bg);
+	border-right: 1px solid var(--muyun-border);
+}
+
+.CodeMirror-linenumber {
+	color: var(--muyun-text-faint);
+}
+
+/* 语法高亮（围栏 cm-s-inner 与源码模式 cm-s-typora-default 共用一套令牌） */
+.cm-s-inner .cm-keyword, .cm-s-typora-default .cm-keyword   { color: var(--muyun-cm-keyword); }
+.cm-s-inner .cm-string, .cm-s-typora-default .cm-string,
+.cm-s-inner .cm-string-2, .cm-s-typora-default .cm-string-2 { color: var(--muyun-cm-string); }
+.cm-s-inner .cm-number, .cm-s-typora-default .cm-number,
+.cm-s-inner .cm-atom, .cm-s-typora-default .cm-atom         { color: var(--muyun-cm-number); }
+.cm-s-inner .cm-def, .cm-s-typora-default .cm-def,
+.cm-s-inner .cm-variable-2, .cm-s-typora-default .cm-variable-2,
+.cm-s-inner .cm-builtin, .cm-s-typora-default .cm-builtin   { color: var(--muyun-cm-def); }
+.cm-s-inner .cm-comment, .cm-s-typora-default .cm-comment   { color: var(--muyun-cm-comment); font-style: italic; }
+.cm-s-inner .cm-tag, .cm-s-typora-default .cm-tag           { color: var(--muyun-cm-tag); }
+.cm-s-inner .cm-attribute, .cm-s-typora-default .cm-attribute { color: var(--muyun-cm-attr); }
+.cm-s-inner .cm-link, .cm-s-typora-default .cm-link,
+.cm-s-inner .cm-url, .cm-s-typora-default .cm-url           { color: var(--muyun-cm-link); }
+.cm-s-inner .cm-meta, .cm-s-typora-default .cm-meta,
+.cm-s-inner .cm-qualifier, .cm-s-typora-default .cm-qualifier { color: var(--muyun-text-muted); }
+
+/* 源码模式：正文着标题色（对应阅读态 H1–H3） */
+.cm-s-typora-default .cm-header { color: var(--muyun-h1); font-weight: 600; }
+.cm-s-typora-default .cm-header-2 { color: var(--muyun-h2); }
+.cm-s-typora-default .cm-header-3 { color: var(--muyun-h3); }
+.cm-s-typora-default .cm-header-4,
+.cm-s-typora-default .cm-header-5,
+.cm-s-typora-default .cm-header-6 { color: var(--text-color); }
+
+#typora-source .CodeMirror-activeline-background,
+.md-fences .CodeMirror-activeline-background {
+	background: var(--muyun-hover);
+}
+
+/* 围栏语言角标浮层 */
+.code-tooltip {
+	background: var(--muyun-bg-secondary);
+	border: 1px solid var(--muyun-border);
+	box-shadow: none;
+	border-radius: 4px;
+}
+
+.auto-suggest-container {
+	background: var(--muyun-bg-secondary);
+	border: 1px solid var(--muyun-border);
+}
+
+/* YAML front matter */
+#write pre.md-meta-block {
+	background: var(--muyun-bg-secondary);
+	color: var(--muyun-text-muted);
+	border: 0;
+	border-radius: 4px;
+	padding: 0.8em 1em;
+	font-size: 0.85em;
+	line-height: 1.5;
+}
+
+/* ============ 表格（表头微底 + hover 行高亮：宽表横向扫行不丢线） ============ */
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	padding: 0;
+	word-break: initial;
+	max-width: 100%;
+}
+
+table tr {
+	border: 0;
+}
+
+th, td {
+	border: 1px solid var(--muyun-border);
+	padding: 6px 13px;
+	transition: background-color var(--muyun-d1) var(--muyun-ease);
+}
+
+th {
+	font-weight: 600;
+	background: var(--muyun-bg-secondary);
+	border-bottom: 1px solid var(--muyun-border-strong);
+}
+
+tbody tr:hover td {
+	background: var(--muyun-hover);
+}
+
+/* ============ 任务清单（勾选弹入；L3） ============ */
+
+.md-task-list-item {
+	list-style: none;
+}
+
+.md-task-list-item > input {
+	margin-left: -1.4em;
+	margin-right: 0.35em;
+	accent-color: var(--primary-color);      /* Chromium 原生勾选框取主题交互色 */
+}
+
+@keyframes muyun-pop {
+	from { transform: scale(0.6); }
+	to { transform: scale(1); }
+}
+
+.md-task-list-item > input:checked {
+	animation: muyun-pop 0.15s var(--muyun-ease);
+}
+
+.md-task-list-item.task-list-done {         /* 已完成项：正文色弱化，不打删除线 */
+	color: var(--muyun-text-faint);
+}
+
+/* ============ GFM 提示块（note/tip/important/warning/caution —— Callout 同源色） ============ */
+
+.md-alert {
+	border-left: 3px solid var(--muyun-border-strong);
+	border-radius: 4px;
+	padding: 0.6em 1em;
+	margin: var(--muyun-p-spacing) 0;
+}
+
+.md-alert-note     { border-left-color: var(--muyun-alert-note);     background: var(--muyun-alert-note-bg); }
+.md-alert-tip      { border-left-color: var(--muyun-alert-tip);      background: var(--muyun-alert-tip-bg); }
+.md-alert-important{ border-left-color: var(--muyun-alert-important);background: var(--muyun-alert-important-bg); }
+.md-alert-warning  { border-left-color: var(--muyun-alert-warning);  background: var(--muyun-alert-warning-bg); }
+.md-alert-caution,
+.md-alert-danger   { border-left-color: var(--muyun-alert-caution);  background: var(--muyun-alert-caution-bg); }
+
+.md-alert-text-note     { color: var(--muyun-alert-note); }
+.md-alert-text-tip      { color: var(--muyun-alert-tip); }
+.md-alert-text-important{ color: var(--muyun-alert-important); }
+.md-alert-text-warning  { color: var(--muyun-alert-warning); }
+.md-alert-text-caution  { color: var(--muyun-alert-caution); }
+.md-alert-text-danger   { color: var(--muyun-alert-caution); }
+
+/* ============ 目录（TOC 层级着色 = 大纲圆点同款：金/紫/蓝） ============ */
+
+.md-toc {
+	margin: var(--muyun-p-spacing) 0;
+}
+
+.md-toc-content a {
+	color: var(--muyun-text-muted);
+}
+
+.md-toc-content a:hover {
+	color: var(--text-color);
+}
+
+.md-toc-h1 { color: var(--muyun-h1) !important; }
+.md-toc-h2 { color: var(--muyun-h2) !important; }
+.md-toc-h3 { color: var(--muyun-h3) !important; }
+
+/* ============ 界面（快速打开 / 侧栏 / 大纲 / 底栏 / 搜索） ============ */
+
+#typora-quick-open {
+	background: var(--muyun-bg-secondary);
+	border: 1px solid var(--muyun-border);
+}
+
+.typora-quick-open-item.active {
+	background: var(--muyun-hover);
+	color: var(--text-color);
+	box-shadow: inset 2px 0 0 var(--muyun-accent);   /* 键盘选中行左条（B7-⑨） */
+}
+
+#typora-sidebar {
+	background: var(--side-bar-bg-color);
+}
+
+.sidebar-tabs {
+	border-bottom: 1px solid var(--muyun-border);
+}
+
+/* 文件树三件套（B7 同构）：文件夹字重 / 当前项左条+底色 / hover 渐亮 / 缩进引导线 */
+[data-is-directory="true"] > .file-node-content .file-node-title {
+	font-weight: 600;
+}
+.file-node-content,
+.file-list-item {
+	transition: background-color var(--muyun-d1) var(--muyun-ease), color var(--muyun-d1) var(--muyun-ease);
+}
+.file-library-node.active > .file-node-background,
+.file-list-item.active {
+	box-shadow: inset 2px 0 0 var(--muyun-accent);
+}
+.file-node-children {
+	margin-left: 6px;
+	padding-left: 6px;
+	border-left: 1px solid var(--muyun-border);
+}
+
+/* 父链高亮（B7-H3）：悬停深层文件 → 祖先文件夹逐级亮起；Chromium 不支持 :has() 时静默降级 */
+@supports selector(:has(*)) {
+	.file-library-node:has(:hover) > .file-node-content {
+		background-color: var(--muyun-hover);
+		color: var(--text-color);
+	}
+}
+
+/* 文件列表视图与侧栏铬件（信息条 tab / 底栏 / 排序 / 路径条 / 搜索面板输入）——类名取自官方 night 内置主题 */
+.file-list-item {
+	border-bottom: none;
+}
+.file-list-item.active:first-child {
+	border-top: none;
+}
+.file-list-item-summary {
+	color: var(--muyun-text-muted);
+}
+.active-tab-files #info-panel-tab-file,
+.active-tab-files #info-panel-tab-file:hover,
+.active-tab-outline #info-panel-tab-outline,
+.active-tab-outline #info-panel-tab-outline:hover {
+	color: var(--text-color);
+}
+.sidebar-footer-item:hover,
+.footer-item:hover {
+	background: var(--muyun-hover);
+	color: var(--text-color);
+}
+.ty-side-sort-btn.active,
+.ty-side-sort-btn:hover,
+.selected-folder-menu-item a::after {
+	color: var(--muyun-accent);
+}
+#file-info-file-path .file-info-field-value:hover {
+	background: var(--muyun-hover);
+	color: var(--text-color);
+}
+#md-searchpanel input {
+	color: var(--text-color);
+	background: var(--bg-color);
+	border: 1px solid var(--muyun-border);
+}
+
+.outline-item {
+	transition: background-color var(--muyun-d1) var(--muyun-ease);
+}
+
+.outline-item:hover {
+	background: var(--item-hover-bg-color);
+}
+
+/* 大纲层级圆点（B7 同构）：金/紫/蓝 = 标题色系；H4 以下取灰，对应「H4–H6 保持正文色」支柱 */
+.outline-item::before {
+	content: "";
+	display: inline-block;
+	flex: none;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--muyun-text-faint);
+	margin-right: 6px;
+}
+.outline-item-wrapper.outline-h1 > .outline-item::before { background: var(--muyun-h1); }
+.outline-item-wrapper.outline-h2 > .outline-item::before { background: var(--muyun-h2); }
+.outline-item-wrapper.outline-h3 > .outline-item::before { background: var(--muyun-h3); }
+
+footer.ty-footer {
+	color: var(--muyun-text-muted);
+	border-top: 1px solid var(--muyun-border);
+}
+
+#footer-word-count:hover {
+	background: var(--item-hover-bg-color);
+	color: var(--text-color);
+}
+
+#md-searchpanel {
+	background: var(--muyun-bg-secondary);
+	border-bottom: 1px solid var(--muyun-border);
+}
+
+.md-search-hit {                            /* 搜索命中：同 ==高亮== 底色 + 加粗 + 圆角 */
+	background: var(--muyun-highlight-bg);
+	color: var(--text-color);
+	font-weight: 600;
+	border-radius: 2px;
+}
+
+.context-menu,
+#spell-check-panel,
+#footer-word-count-info {
+	background: var(--muyun-bg-secondary);
+	border: 1px solid var(--muyun-border);
+}
+
+/* 模态框（插入表格/图片等）与表格编辑工具条 */
+.modal-content {
+	background: var(--muyun-bg-secondary);
+	border: 1px solid var(--muyun-border);
+}
+
+.modal-header {
+	border-bottom: 1px solid var(--muyun-border);
+}
+
+.modal-footer {
+	border-top: 1px solid var(--muyun-border);
+}
+
+.modal-title {
+	color: var(--text-color);
+}
+
+.modal-content input {
+	background: var(--bg-color);
+	color: var(--text-color);
+	border: 1px solid var(--muyun-border);
+}
+
+.ty-table-edit {
+	background: var(--muyun-bg-secondary);
+	border-top: 1px solid var(--muyun-border);
+}
+
+.dropdown-menu .divider {
+	border-color: var(--muyun-border-strong);
+	opacity: 0.6;
+}
+
+.megamenu-content,
+.megamenu-opened header {
+	background: var(--bg-color);
+}
+
+/* 汉堡菜单面板内部（标题/搜索框/最近文件/下拉项/按钮）——类名取自官方 night 内置主题 */
+.megamenu-menu-panel h1,
+.megamenu-menu-panel h2,
+.long-btn {
+	color: var(--text-color);
+}
+
+.megamenu-menu-panel input[type="text"] {
+	background: var(--bg-color);
+	color: var(--text-color);
+	border: 0;
+	border-bottom: 1px solid var(--muyun-border-strong);
+}
+
+.megamenu-menu-panel .dropdown-menu > li > a {
+	color: var(--text-color);
+	background: var(--muyun-bg-secondary);
+	text-decoration: none;
+}
+
+.megamenu-menu-panel table td:nth-child(1) {
+	color: var(--text-color);
+	font-weight: 600;
+}
+
+.megamenu-menu-panel tbody tr:hover td:nth-child(1) {
+	color: var(--muyun-accent);
+}
+
+.megamenu-menu-panel .btn {
+	border: 1px solid var(--muyun-border-strong);
+	background: transparent;
+}
+
+#recent-file-panel-action-btn {
+	background: var(--muyun-bg-secondary);
+	border: 1px solid var(--muyun-border-strong);
+}
+
+/* 键盘导航焦点环（:focus-visible，鼠标点击不触发） */
+a:focus-visible,
+.btn:focus-visible,
+.long-btn:focus-visible {
+	outline: 2px solid var(--muyun-accent);
+	outline-offset: 2px;
+}
+
+/* 偏好设置 / 导出面板：导航选中走「选中行左条」同款（B7-⑨），控件边框随令牌 */
+.ty-preferences .window-content {
+	background: var(--bg-color);
+}
+.ty-preferences .nav-group-item {
+	transition: background-color var(--muyun-d1) var(--muyun-ease), color var(--muyun-d1) var(--muyun-ease);
+}
+.ty-preferences .nav-group-item:hover {
+	background: var(--muyun-hover);
+}
+.ty-preferences .nav-group-item.active,
+.export-item.active,
+.export-items-list-control {
+	background: var(--muyun-hover);
+	color: var(--text-color);
+	box-shadow: inset 2px 0 0 var(--muyun-accent);
+}
+.export-detail {
+	background: var(--muyun-hover);
+}
+.ty-preferences select,
+.ty-preferences input[type="text"],
+.ty-preferences input[type="search"] {
+	border: 1px solid var(--muyun-border-strong);
+	background: var(--bg-color);
+	color: var(--text-color);
+}
+.ty-preferences input[type="search"]:focus {
+	box-shadow: none;
+}
+.ty-preferences .btn-default:hover,
+.ty-preferences .btn-default:focus {
+	background: var(--muyun-hover);
+}
+
+/* ============ 专注模式（非活动段落弱化到 faint，不打死灰） ============ */
+
+.on-focus-mode .md-end-block:not(.md-focus):not(.md-focus-container) * {
+	color: var(--muyun-text-faint) !important;
+}
+
+.on-focus-mode .md-end-block:not(.md-focus):not(.md-focus-container) img {
+	opacity: 0.5;
+}
+
+.on-focus-mode .md-focus,
+.on-focus-mode .md-focus-container {
+	color: var(--text-color);
+}
+
+/* ============ 滚动条（加宽 + hover 变 accent —— 长文位置感锚点 ⑫） ============ */
+
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--muyun-scrollbar-thumb);
+	border-radius: 5px;
+	border: 2px solid transparent;
+	background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--muyun-accent);
+	background-clip: content-box;
+}
+
+/* ============ 数学公式与输入光标 ============ */
+
+/* 公式：TeX 源码取定义紫（代码体系同源），渲染式随正文色；中缝预览条随二级底色 */
+.md-inline-math script {
+	color: var(--muyun-cm-def);
+}
+.md-inline-math svg {
+	color: var(--text-color);
+}
+.md-mathjax-midline {
+	background: var(--muyun-bg-secondary);
+}
+.mathjax-block > .code-tooltip {
+	bottom: 0.375rem;
+}
+
+/* 输入光标随交互色（Obsidian 版光标随 accent；源码模式光标沿用官方 3px 宽、仅改取色） */
+#write {
+	caret-color: var(--primary-color);
+}
+.CodeMirror.cm-s-typora-default div.CodeMirror-cursor {
+	border-left-color: var(--primary-color);
+}
+
+/* ============ 锦上添花批（与 Obsidian 版同名开关对应；全部默认关，启用去掉注释标记） ============ */
+
+/* S1 表格斑马纹（偶数行微底；打印态经 --muyun-hover: transparent 自动豁免）
+tbody tr:nth-child(even) td {
+	background: var(--muyun-hover);
+}
+*/
+
+/* S2 图片圆角卡片
+#write img {
+	border: 1px solid var(--muyun-border);
+	border-radius: 8px;
+	padding: 6px;
+	background: var(--muyun-bg-secondary);
+	box-sizing: border-box;
+}
+*/
+
+/* S4 标题自动编号（H1→1 / H2→1.1 / H3→1.1.1；仅正文区，H4 以下不参与。
+   Typora 所见即所得无虚拟化，编辑态即可稳定计数——优于 Obsidian 版的仅阅读视图。
+   与 H2 路标条互斥：本块的 #write h2 { border-left: none } 特异性更高，启用即自动收条，无需手动删）
+
+#write {
+	counter-reset: muyun-h1;
+}
+#write h1 {
+	counter-reset: muyun-h2;
+	counter-increment: muyun-h1;
+}
+#write h1::before {
+	content: counter(muyun-h1) ". ";
+	color: var(--muyun-text-faint);
+}
+#write h2 {
+	border-left: none;
+	padding-left: 0;
+	counter-reset: muyun-h3;
+	counter-increment: muyun-h2;
+}
+#write h2::before {
+	content: counter(muyun-h1) "." counter(muyun-h2) "  ";
+	color: var(--muyun-h2);
+	opacity: 0.75;
+}
+#write h3 {
+	counter-increment: muyun-h3;
+	counter-reset: muyun-h4;
+}
+#write h3::before {
+	content: counter(muyun-h1) "." counter(muyun-h2) "." counter(muyun-h3) "  ";
+	color: var(--muyun-h3);
+	opacity: 0.75;
+}
+*/
+
+/* S4b 编号扩展 H4–H6（需先启用上方 S4；Obsidian 版刻意止步 H3，此项为可选增强。
+   前缀取极弱色，保持「H4–H6 退后」的层级原则）
+#write h4 {
+	counter-increment: muyun-h4;
+	counter-reset: muyun-h5;
+}
+#write h4::before {
+	content: counter(muyun-h1) "." counter(muyun-h2) "." counter(muyun-h3) "." counter(muyun-h4) "  ";
+	color: var(--muyun-text-faint);
+	opacity: 0.75;
+}
+#write h5 {
+	counter-increment: muyun-h5;
+	counter-reset: muyun-h6;
+}
+#write h5::before {
+	content: counter(muyun-h1) "." counter(muyun-h2) "." counter(muyun-h3) "." counter(muyun-h4) "." counter(muyun-h5) "  ";
+	color: var(--muyun-text-faint);
+	opacity: 0.75;
+}
+#write h6 {
+	counter-increment: muyun-h6;
+}
+#write h6::before {
+	content: counter(muyun-h1) "." counter(muyun-h2) "." counter(muyun-h3) "." counter(muyun-h4) "." counter(muyun-h5) "." counter(muyun-h6) "  ";
+	color: var(--muyun-text-faint);
+	opacity: 0.75;
+}
+*/
+
+/* ============ PDF 导出 / 打印：强制纸底深字（深浅两态同款，写在文件末尾保证层叠优先） ============ */
+
+@media print {
+	:root {
+		--bg-color: #ffffff;
+		--side-bar-bg-color: #ffffff;
+		--muyun-bg-secondary: #ffffff;
+		--text-color: #1F1F24;
+		--muyun-text-muted: #5A5A64;
+		--muyun-text-faint: #8A8A93;
+		--muyun-accent: #4A3A7E;
+		--primary-color: #4A3A7E;
+		--muyun-link: #2F5AA8;
+		--muyun-bold: #6B5200;
+		--muyun-h1: #6B5200;
+		--muyun-h2: #525288;
+		--muyun-h3: #2F5AA8;
+		--muyun-border: #D8D8D2;
+		--muyun-border-strong: #B8B8B0;
+		--muyun-hover: transparent;
+		--muyun-code-bg: #F5F5F0;
+		--muyun-highlight-bg: #FFF3C4;
+		--muyun-tag-bg: #EFEBE3;
+	}
+
+	html, body {
+		background: #ffffff !important;
+	}
+
+	tbody tr:hover td {
+		background: transparent;
+	}
+
+	pre {
+		page-break-inside: avoid;
+		word-wrap: break-word;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		page-break-after: avoid;
+		break-after: avoid;
+	}
+
+	p, li {
+		orphans: 3;
+		widows: 3;
+	}
+
+	thead {
+		display: table-header-group;
+	}
+
+	table, blockquote, .md-alert, img {
+		page-break-inside: avoid;
+		break-inside: avoid;
+	}
+
+	@page {
+		margin: 18mm 16mm;
+	}
+
+	th, td {
+		transition: none;
+	}
+}
+
+/* ============ 动效纪律：系统减弱动态效果时全关 ============ */
+
+@media (prefers-reduced-motion: reduce) {
+	* {
+		transition: none !important;
+		animation: none !important;
+	}
+}

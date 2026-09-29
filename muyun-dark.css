@@ -1,0 +1,129 @@
+/* MuYun 慕云 · Typora Edition v0.3.1 — 墨蓝夜空（深色）
+   组件规则全部来自 muyun.css（两文件须放在同一 themes 目录）；本文件只覆盖设计令牌与深色专属修正。
+   深色交互相位与 Obsidian 版一致：主题内建变量跟随 accent；如需旧灰紫 #4C3A99 可自行替换 --primary-color。 */
+
+@import "muyun.css";
+@import "night/mermaid.dark.css";          /* Typora 自带资源：mermaid 图表夜间配色 */
+
+:root {
+	/* ── 纸面（墨蓝夜空） ── */
+	--bg-color: #16161D;
+	--side-bar-bg-color: #1D1D27;
+	--muyun-bg-secondary: #1D1D27;
+	--text-color: #C6C9D4;
+	--muyun-text-muted: #8A8FA3;
+	--muyun-text-faint: #565B6E;
+
+	/* ── 锚点色系（深色基准） ── */
+	--muyun-accent: #B1AAD8;                 /* 慕云灰紫 */
+	--primary-color: #B1AAD8;
+	--muyun-link: #93A5DE;
+	--muyun-bold: #DDC79C;                   /* 沙金（深色基准，双态同值） */
+	--muyun-h1: #DDC79C;
+	--muyun-h2: #525288;                     /* 慕云紫（双态同值） */
+	--muyun-h3: #93A5DE;
+
+	/* ── 派生面 ── */
+	--muyun-border: rgba(255, 255, 255, 0.10);
+	--muyun-border-strong: rgba(255, 255, 255, 0.22);
+	--muyun-hover: rgba(255, 255, 255, 0.05);
+	--muyun-code-bg: #1D1D27;
+	--muyun-highlight-bg: rgba(221, 199, 156, 0.22);
+	--muyun-tag-bg: rgba(177, 170, 216, 0.10);
+	--muyun-scrollbar-thumb: rgba(255, 255, 255, 0.14);
+
+	/* ── Typora 内建 ── */
+	--control-text-color: #8A8FA3;
+	--control-text-hover-color: #C6C9D4;
+	--item-hover-bg-color: rgba(255, 255, 255, 0.05);
+	--item-hover-text-color: #C6C9D4;
+	--active-file-bg-color: rgba(255, 255, 255, 0.05);
+	--active-file-border-color: #B1AAD8;
+	--active-file-text-color: #C6C9D4;
+	--select-text-bg-color: rgba(126, 138, 204, 0.22);
+	--search-select-bg-color: rgba(126, 138, 204, 0.30);
+	--window-border: 1px solid rgba(255, 255, 255, 0.22);
+	--rawblock-edit-panel-bd: #1D1D27;
+
+	/* ── 代码语法高亮：色相不动、亮度抬升（护眼降饱和原则的深色面） ── */
+	--muyun-cm-keyword: #9B97D6;
+	--muyun-cm-string: #7CB99A;
+	--muyun-cm-number: #C79578;
+	--muyun-cm-def: #B1AAD8;
+	--muyun-cm-comment: #8A8FA3;
+	--muyun-cm-tag: #C79578;
+	--muyun-cm-attr: #DDC79C;
+	--muyun-cm-link: #93A5DE;
+
+	/* ── GFM 提示块：同色相，底色深一档 ── */
+	--muyun-alert-note-bg: rgba(115, 117, 174, 0.12);
+	--muyun-alert-tip-bg: rgba(63, 133, 102, 0.12);
+	--muyun-alert-important-bg: rgba(82, 82, 136, 0.12);
+	--muyun-alert-warning-bg: rgba(160, 100, 76, 0.12);
+	--muyun-alert-caution-bg: rgba(126, 50, 50, 0.12);
+}
+
+/* ============ 正文对比度三档（深色对应档；默认标准档，与 muyun.css 的浅色档配套启用） ============ */
+
+/* 柔和 Soft（约 8.5:1，更护眼）
+:root {
+	--text-color: #AFB3C2;
+}
+*/
+
+/* 扎实 Firm（约 12.5:1，更清晰）
+:root {
+	--text-color: #D6D8E0;
+}
+*/
+
+/* ── 深色专属修正 ── */
+
+.md-diagram-panel-error {
+	color: #E08E8C;
+}
+
+/* ============ PDF 导出 / 打印：强制纸底深字 ============
+   本块与 muyun.css 末尾同款，但必须在本文件重复声明——
+   @import 的内容在层叠序上先于本文件的 :root 覆盖，若不重申，深色令牌会赢过打印覆盖，导出暗底 PDF。 */
+
+@media print {
+	:root {
+		--bg-color: #ffffff;
+		--side-bar-bg-color: #ffffff;
+		--muyun-bg-secondary: #ffffff;
+		--text-color: #1F1F24;
+		--muyun-text-muted: #5A5A64;
+		--muyun-text-faint: #8A8A93;
+		--muyun-accent: #4A3A7E;
+		--primary-color: #4A3A7E;
+		--muyun-link: #2F5AA8;
+		--muyun-bold: #6B5200;
+		--muyun-h1: #6B5200;
+		--muyun-h2: #525288;
+		--muyun-h3: #2F5AA8;
+		--muyun-border: #D8D8D2;
+		--muyun-border-strong: #B8B8B0;
+		--muyun-hover: transparent;
+		--muyun-code-bg: #F5F5F0;
+		--muyun-highlight-bg: #FFF3C4;
+		--muyun-tag-bg: #EFEBE3;
+	}
+
+	html, body {
+		background: #ffffff !important;
+	}
+
+	tbody tr:hover td {
+		background: transparent;
+	}
+
+	pre {
+		page-break-inside: avoid;
+		word-wrap: break-word;
+	}
+
+	th, td {
+		transition: none;
+	}
+}
