@@ -1,4 +1,4 @@
-/* MuYun 慕云 · Typora Edition v0.3.1 — 墨蓝夜空（深色）
+/* MuYun 慕云 · Typora Edition v0.3.3 — 墨蓝夜空（深色）
    组件规则全部来自 muyun.css（两文件须放在同一 themes 目录）；本文件只覆盖设计令牌与深色专属修正。
    深色交互相位与 Obsidian 版一致：主题内建变量跟随 accent；如需旧灰紫 #4C3A99 可自行替换 --primary-color。 */
 
@@ -22,6 +22,7 @@
 	--muyun-h1: #DDC79C;
 	--muyun-h2: #525288;                     /* 慕云紫（双态同值） */
 	--muyun-h3: #93A5DE;
+	--muyun-outline-h2: #8383B8;             /* 大纲 H2 色条提亮：色相不变，深底约 4.7:1（正文 H2 仍取双态同值） */
 
 	/* ── 派生面 ── */
 	--muyun-border: rgba(255, 255, 255, 0.10);
@@ -54,6 +55,7 @@
 	--muyun-cm-tag: #C79578;
 	--muyun-cm-attr: #DDC79C;
 	--muyun-cm-link: #93A5DE;
+	--muyun-cm-error: #E08E8C;             /* 错误提亮（色相不变） */
 
 	/* ── GFM 提示块：同色相，底色深一档 ── */
 	--muyun-alert-note-bg: rgba(115, 117, 174, 0.12);

@@ -1,4 +1,4 @@
-/* MuYun 慕云 · Typora Edition v0.3.1 — 晨光暖纸（浅色）
+/* MuYun 慕云 · Typora Edition v0.3.3 — 晨光暖纸（浅色）
    obsidian-muyun 的姊妹主题：三支柱 —— ① 阅读舒适 ② 写作高效 ③ 快速定位。
    令牌取自《MuYun 设计文档》定稿值；组件规则两态共用（深色见 muyun-dark.css，仅覆盖令牌）。
    约定：优先 CSS 变量；动效 ≤200ms、只动 color/opacity/transform；reduced-motion 全关。
@@ -21,6 +21,7 @@
 	--muyun-h1: #8A6A30;                 /* H1 沙金 */
 	--muyun-h2: #525288;                 /* H2 慕云紫（双态同值） */
 	--muyun-h3: #4A6CAB;                 /* H3 链接蓝 */
+	--muyun-outline-h2: #525288;         /* 大纲 H2 色条（同 h2；深色经此令牌提亮，见 muyun-dark） */
 
 	/* ── 派生面（边框/悬停/代码/高亮/标签） ── */
 	--muyun-border: rgba(0, 0, 0, 0.10);
@@ -54,6 +55,7 @@
 	--muyun-cm-tag: #A0644C;
 	--muyun-cm-attr: #8A6A30;
 	--muyun-cm-link: #4A6CAB;
+	--muyun-cm-error: #7E3232;           /* 错误 · 暗红（Callout danger 同源，池外唯一例外） */
 
 	/* ── GFM 提示块（与 Obsidian Callout 同一调色板） ── */
 	--muyun-alert-note: #7375AE;      --muyun-alert-note-bg: rgba(115, 117, 174, 0.08);
@@ -329,6 +331,22 @@ code, tt, var {
 .cm-s-inner .cm-meta, .cm-s-typora-default .cm-meta,
 .cm-s-inner .cm-qualifier, .cm-s-typora-default .cm-qualifier { color: var(--muyun-text-muted); }
 
+/* v0.3.3 令牌补全：Typora 内置 codemirror.css 以同特异性硬编码浅色（cm-variable/cm-property 纯黑、
+   cm-operator 暗红），未覆盖的令牌会在深色下漏成黑字——此处逐一接管。
+   设计：未识别令牌回落正文色；运算符/括号等结构符退后取灰；键名/类型/引用按语义归入既有色族 */
+.md-fences .CodeMirror,
+#typora-source .CodeMirror {
+	color: var(--text-color);               /* 基础码色：普通文本与任何未识别令牌 */
+}
+.cm-s-inner .cm-variable, .cm-s-typora-default .cm-variable       { color: var(--text-color); }
+.cm-s-inner .cm-operator, .cm-s-typora-default .cm-operator,
+.cm-s-inner .cm-bracket, .cm-s-typora-default .cm-bracket,
+.cm-s-inner .cm-hr, .cm-s-typora-default .cm-hr                   { color: var(--muyun-text-muted); }
+.cm-s-inner .cm-property, .cm-s-typora-default .cm-property       { color: var(--muyun-cm-link); }
+.cm-s-inner .cm-variable-3, .cm-s-typora-default .cm-variable-3   { color: var(--muyun-cm-attr); }
+.cm-s-inner .cm-quote, .cm-s-typora-default .cm-quote             { color: var(--muyun-cm-string); }
+.cm-s-inner .cm-error, .cm-s-typora-default .cm-error             { color: var(--muyun-cm-error); }
+
 /* 源码模式：正文着标题色（对应阅读态 H1–H3） */
 .cm-s-typora-default .cm-header { color: var(--muyun-h1); font-weight: 600; }
 .cm-s-typora-default .cm-header-2 { color: var(--muyun-h2); }
@@ -553,20 +571,22 @@ tbody tr:hover td {
 	background: var(--item-hover-bg-color);
 }
 
-/* 大纲层级圆点（B7 同构）：金/紫/蓝 = 标题色系；H4 以下取灰，对应「H4–H6 保持正文色」支柱 */
-.outline-item::before {
+/* 大纲层级色条（B7 同构）：金/紫/蓝 = 标题色系；H4 以下取灰，对应「H4–H6 保持正文色」支柱。
+   v0.3.2：圆点改 14×4 色条（呼应 H2 路标条）；挂点从 .outline-item 移到 .outline-label——
+   Typora 大纲为 table-cell 布局，挂 .outline-item 的 inline-block 会与标题错位 */
+.outline-label::before {
 	content: "";
 	display: inline-block;
-	flex: none;
-	width: 7px;
-	height: 7px;
-	border-radius: 50%;
+	vertical-align: middle;
+	width: 14px;
+	height: 4px;
+	border-radius: 2px;
 	background: var(--muyun-text-faint);
-	margin-right: 6px;
+	margin-right: 8px;
 }
-.outline-item-wrapper.outline-h1 > .outline-item::before { background: var(--muyun-h1); }
-.outline-item-wrapper.outline-h2 > .outline-item::before { background: var(--muyun-h2); }
-.outline-item-wrapper.outline-h3 > .outline-item::before { background: var(--muyun-h3); }
+.outline-item-wrapper.outline-h1 > .outline-item .outline-label::before { background: var(--muyun-h1); }
+.outline-item-wrapper.outline-h2 > .outline-item .outline-label::before { background: var(--muyun-outline-h2); }
+.outline-item-wrapper.outline-h3 > .outline-item .outline-label::before { background: var(--muyun-h3); }
 
 footer.ty-footer {
 	color: var(--muyun-text-muted);
