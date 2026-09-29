@@ -1,0 +1,8 @@
+/* MuYun 慕云 · 宽幅变体（46rem 行宽；浅色晨光暖纸）
+   在主题菜单直接选择本文件；组件规则与打印块全部来自 muyun.css。
+   需要 52rem 宽幅档时把下方变量改为 52rem。 */
+@import "muyun.css";
+
+:root {
+	--muyun-measure: 46rem;
+}

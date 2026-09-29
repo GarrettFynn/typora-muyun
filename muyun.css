@@ -1,4 +1,4 @@
-/* MuYun 慕云 · Typora Edition v0.1.0 — 晨光暖纸（浅色）
+/* MuYun 慕云 · Typora Edition v0.2.0 — 晨光暖纸（浅色）
    obsidian-muyun 的姊妹主题：三支柱 —— ① 阅读舒适 ② 写作高效 ③ 快速定位。
    令牌取自《MuYun 设计文档》定稿值；组件规则两态共用（深色见 muyun-dark.css，仅覆盖令牌）。
    约定：优先 CSS 变量；动效 ≤200ms、只动 color/opacity/transform；reduced-motion 全关。
@@ -262,10 +262,12 @@ sup.md-footnote {
 	font-size: 0.9em;
 }
 
-kbd {
+kbd,
+body #write kbd {
 	font-family: var(--monospace);
 	font-size: 0.85em;
 	padding: 2px 5px;
+	color: var(--text-color);
 	background: var(--muyun-bg-secondary);
 	border: 1px solid var(--muyun-border-strong);
 	border-bottom-width: 2px;
@@ -588,6 +590,35 @@ footer.ty-footer {
 	border: 1px solid var(--muyun-border);
 }
 
+/* 模态框（插入表格/图片等）与表格编辑工具条 */
+.modal-content {
+	background: var(--muyun-bg-secondary);
+	border: 1px solid var(--muyun-border);
+}
+
+.modal-header {
+	border-bottom: 1px solid var(--muyun-border);
+}
+
+.modal-footer {
+	border-top: 1px solid var(--muyun-border);
+}
+
+.modal-title {
+	color: var(--text-color);
+}
+
+.modal-content input {
+	background: var(--bg-color);
+	color: var(--text-color);
+	border: 1px solid var(--muyun-border);
+}
+
+.ty-table-edit {
+	background: var(--muyun-bg-secondary);
+	border-top: 1px solid var(--muyun-border);
+}
+
 .dropdown-menu .divider {
 	border-color: var(--muyun-border-strong);
 	opacity: 0.6;
@@ -785,6 +816,29 @@ tbody tr:nth-child(even) td {
 	pre {
 		page-break-inside: avoid;
 		word-wrap: break-word;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		page-break-after: avoid;
+		break-after: avoid;
+	}
+
+	p, li {
+		orphans: 3;
+		widows: 3;
+	}
+
+	thead {
+		display: table-header-group;
+	}
+
+	table, blockquote, .md-alert, img {
+		page-break-inside: avoid;
+		break-inside: avoid;
+	}
+
+	@page {
+		margin: 18mm 16mm;
 	}
 
 	th, td {

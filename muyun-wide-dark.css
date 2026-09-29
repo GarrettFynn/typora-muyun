@@ -1,0 +1,7 @@
+/* MuYun 慕云 · 宽幅深色变体（46rem 行宽 + 墨蓝夜空）
+   组件规则经 muyun-dark.css → muyun.css 两级 @import 完整继承（含打印块）。 */
+@import "muyun-dark.css";
+
+:root {
+	--muyun-measure: 46rem;
+}
