@@ -1,4 +1,4 @@
-/* MuYun 慕云 · Typora Edition v0.2.0 — 晨光暖纸（浅色）
+/* MuYun 慕云 · Typora Edition v0.3.0 — 晨光暖纸（浅色）
    obsidian-muyun 的姊妹主题：三支柱 —— ① 阅读舒适 ② 写作高效 ③ 快速定位。
    令牌取自《MuYun 设计文档》定稿值；组件规则两态共用（深色见 muyun-dark.css，仅覆盖令牌）。
    约定：优先 CSS 变量；动效 ≤200ms、只动 color/opacity/transform；reduced-motion 全关。
@@ -107,6 +107,13 @@ body {
 	max-width: var(--muyun-measure);
 	margin: 0 auto;
 	padding: 30px 30px 100px;
+	text-autospace: normal; /* 中西文自动加隙（Chromium 120+ 实测生效；旧版静默降级） */
+}
+
+#write code,
+#write tt,
+#write pre {
+	text-autospace: none; /* 代码区保持等宽对齐 */
 }
 
 @media (max-width: 750px) {
@@ -629,6 +636,53 @@ footer.ty-footer {
 	background: var(--bg-color);
 }
 
+/* 汉堡菜单面板内部（标题/搜索框/最近文件/下拉项/按钮）——类名取自官方 night 内置主题 */
+.megamenu-menu-panel h1,
+.megamenu-menu-panel h2,
+.long-btn {
+	color: var(--text-color);
+}
+
+.megamenu-menu-panel input[type="text"] {
+	background: var(--bg-color);
+	color: var(--text-color);
+	border: 0;
+	border-bottom: 1px solid var(--muyun-border-strong);
+}
+
+.megamenu-menu-panel .dropdown-menu > li > a {
+	color: var(--text-color);
+	background: var(--muyun-bg-secondary);
+	text-decoration: none;
+}
+
+.megamenu-menu-panel table td:nth-child(1) {
+	color: var(--text-color);
+	font-weight: 600;
+}
+
+.megamenu-menu-panel tbody tr:hover td:nth-child(1) {
+	color: var(--muyun-accent);
+}
+
+.megamenu-menu-panel .btn {
+	border: 1px solid var(--muyun-border-strong);
+	background: transparent;
+}
+
+#recent-file-panel-action-btn {
+	background: var(--muyun-bg-secondary);
+	border: 1px solid var(--muyun-border-strong);
+}
+
+/* 键盘导航焦点环（:focus-visible，鼠标点击不触发） */
+a:focus-visible,
+.btn:focus-visible,
+.long-btn:focus-visible {
+	outline: 2px solid var(--muyun-accent);
+	outline-offset: 2px;
+}
+
 /* 偏好设置 / 导出面板：导航选中走「选中行左条」同款（B7-⑨），控件边框随令牌 */
 .ty-preferences .window-content {
 	background: var(--bg-color);
@@ -772,10 +826,41 @@ tbody tr:nth-child(even) td {
 }
 #write h3 {
 	counter-increment: muyun-h3;
+	counter-reset: muyun-h4;
 }
 #write h3::before {
 	content: counter(muyun-h1) "." counter(muyun-h2) "." counter(muyun-h3) "  ";
 	color: var(--muyun-h3);
+	opacity: 0.75;
+}
+*/
+
+/* S4b 编号扩展 H4–H6（需先启用上方 S4；Obsidian 版刻意止步 H3，此项为可选增强。
+   前缀取极弱色，保持「H4–H6 退后」的层级原则）
+#write h4 {
+	counter-increment: muyun-h4;
+	counter-reset: muyun-h5;
+}
+#write h4::before {
+	content: counter(muyun-h1) "." counter(muyun-h2) "." counter(muyun-h3) "." counter(muyun-h4) "  ";
+	color: var(--muyun-text-faint);
+	opacity: 0.75;
+}
+#write h5 {
+	counter-increment: muyun-h5;
+	counter-reset: muyun-h6;
+}
+#write h5::before {
+	content: counter(muyun-h1) "." counter(muyun-h2) "." counter(muyun-h3) "." counter(muyun-h4) "." counter(muyun-h5) "  ";
+	color: var(--muyun-text-faint);
+	opacity: 0.75;
+}
+#write h6 {
+	counter-increment: muyun-h6;
+}
+#write h6::before {
+	content: counter(muyun-h1) "." counter(muyun-h2) "." counter(muyun-h3) "." counter(muyun-h4) "." counter(muyun-h5) "." counter(muyun-h6) "  ";
+	color: var(--muyun-text-faint);
 	opacity: 0.75;
 }
 */

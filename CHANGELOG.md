@@ -1,0 +1,40 @@
+# Changelog 更新日志
+
+格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)；版本遵循语义化版本。
+
+## [Unreleased]
+
+## [0.3.0] — 2026-09-29
+
+### Added 新增
+
+- **中西文自动加隙**：`#write` 启用 `text-autospace: normal`（Chromium 120+ 实测生效，混排边界自动留半角隙；代码区显式 `none` 保持等宽对齐，旧版静默降级）。
+- **汉堡菜单面板深化**：面板标题、搜索框、最近文件下拉项、表格首列、按钮与「最近文件」操作钮全部随令牌（类名取自官方 night 内置主题）。
+- **键盘焦点环**：`a / .btn / .long-btn` 的 `:focus-visible` 取强调色描边（鼠标点击不触发）。
+- **S4b 编号扩展（可选，默认关）**：H4–H6 计数前缀，需先启用 S4；Obsidian 版刻意止步 H3，此项为 Typora 版可选增强。
+- **仓库内容**：`CHANGELOG.md`、`PALETTE.md`（11 色池 → CSS 变量对照）、`preview/` 双态结构模拟页、`release.yml`（打 tag 自动附发布资产）。
+
+## [0.2.0] — 2026-09-29
+
+### Added 新增
+
+- 双语 README（Overview / Highlights）与实机截图（light / dark，1280×840 真机捕获）。
+- 「与 Obsidian 版的已知差异」章节（做不到 / 反而更强 / 有意为之）。
+- 行宽变体主题：`muyun-wide.css` / `muyun-wide-dark.css`（46rem，经 `@import` 复用基础文件）。
+- 打印/PDF 强化：标题防孤行（`page-break-after: avoid`）、段落 orphans/widows、表头跨页重复（`thead` header-group）、`@page` 边距。
+- 模态框（插入表格/图片等）与表格编辑工具条样式。
+- 界面深化：文件列表视图、信息条 tab、偏好设置/导出面板、数学公式配色、输入光标随交互色。
+
+### Fixed 修复
+
+- 深色主题下 `kbd` 渲染为白底浅字不可读（核心样式以更高优先级覆盖所致）——改用 `body #write kbd` 提升特异性并显式声明文字色，真机复验通过。
+
+## [0.1.0] — 2026-09-29
+
+### Added 新增
+
+- 浅色「晨光暖纸」/ 深色「墨蓝夜空」双主题初版：三支柱（阅读舒适 / 写作高效 / 快速定位）自 obsidian-muyun 完整移植。
+- 三级标题系统（H1 沙金底线 / H2 慕云紫路标条 / H3 链接蓝），正文对比度压 ≈10:1 舒适带。
+- 大纲层级圆点、文件树三件套与父链高亮（`:has()`，旧内核静默降级）。
+- 可选开关（默认关）：S1 表格斑马纹 / S2 图片圆角卡片 / S4 标题自动编号；正文对比度三档（柔和/标准/扎实）。
+- PDF 导出强制白纸黑字；`prefers-reduced-motion` 全关。
