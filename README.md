@@ -8,6 +8,8 @@
 
 ## Screenshots 截图
 
+**Online preview 在线预览**（无需安装，结构模拟页）：**https://garrettfynn.github.io/typora-muyun/**
+
 **Light · 晨光暖纸**
 
 ![MuYun Typora light](screenshots/light.png)
